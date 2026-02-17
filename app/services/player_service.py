@@ -1,5 +1,4 @@
 from fastapi import HTTPException, status
-from fastapi.openapi.utils import status_code_ranges
 from sqlalchemy.orm import Session
 from app.repositories.player_repository import PlayerRepository
 from app.schemas.player import PlayerCreate, PlayerUpdate
@@ -23,7 +22,7 @@ class PlayerService:
 
         return player
 
-    def get_all_player(self, skip : int = 0, limit : int = 100):
+    def get_all_players(self, skip : int = 0, limit : int = 100):
         return self.repo.get_all(skip, limit)
 
     def create_player(self, player_data : PlayerCreate):
