@@ -14,9 +14,6 @@ class PlayerRepository:
     def get_by_nickname(self, player_nickname : str) -> Optional[Player]:
         return self.db.query(Player).filter(Player.nickname == player_nickname).first()
 
-    def get_by_rating(self, player_rating : int) -> Optional[Player]:
-        return self.db.query(Player).filter(Player.rating == player_rating).first()
-
     def get_all(self, skip : int = 0, limit : int = 100) -> List[Player]:
         return self.db.query(Player).offset(skip).limit(limit).all()
 
@@ -24,9 +21,18 @@ class PlayerRepository:
         player = Player(**player_data.model_dump())
 
         self.db.add(player)
-        self.db.commit("Add new Player")
+        self.db.commit()
         self.db.refresh(player)
         return player
 
-    #def update(self, player : Player, player_data : PlayerUpdate) -> Player:
-    #дописать update, добавить delete
+    def update(self, player : Player, player_data : PlayerUpdate) -> Player:
+        for field, value in player_data.model_dump(exclude_unset=True).items():
+            setattr(player, field, value)
+
+        self.db.commit()
+        self.db.refresh(player)
+        return player
+
+    def delete(self, player : Player) -> None:
+        self.db.delete(player)
+        self.db.commit()
