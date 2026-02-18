@@ -10,8 +10,7 @@ class PlayerService:
     def get_player_by_id(self, player_id : int):
         player = self.repo.get_by_id(player_id)
         if not player:
-            raise HTTPException(404, f"Player with id {player_id} not found"
-            )
+            raise HTTPException(404, f"Player with id {player_id} not found")
 
         return player
 
