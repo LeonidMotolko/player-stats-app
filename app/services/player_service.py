@@ -31,5 +31,17 @@ class PlayerService:
 
         return self.repo.create(player_data)
 
+    def update_player(self, player_id: int, player_data: PlayerUpdate):
+        player = self.get_player_by_id(player_id)
 
-    #def update_player(self, player_data : PlayerUpdate):
+        if player_data.nickname and player_data.nickname != player.nickname:
+            existing = self.repo.get_by_nickname(player_data.nickname)
+            if existing:
+                raise HTTPException(400,"Nickname already taken")
+
+        return self.repo.update(player, player_data)
+
+    def delete_player(self, player_id : int):
+        player = self.get_player_by_id(player_id)
+        self.repo.delete(player)
+        return {"message":"Player deleted successfully"}
