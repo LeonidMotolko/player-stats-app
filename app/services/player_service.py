@@ -43,4 +43,4 @@ class PlayerService:
     def delete_player(self, player_id : int):
         player = self.get_player_by_id(player_id)
         self.repo.delete(player)
-        return {"message":"Player deleted successfully"}
+        return {"message":f"Player with id: {player_id} delete successfully"}
