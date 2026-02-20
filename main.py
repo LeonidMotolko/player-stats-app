@@ -11,6 +11,7 @@ app = FastAPI(
     version=settings.VERSION
 )
 
+app.include_router(player_router.router, prefix="/api/v1")
 
 @app.get("/")
 def root():
