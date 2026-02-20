@@ -4,7 +4,7 @@ from app.core.database import engine, Base
 from app.routers import player_router
 
 # Создаем таблицы в БД (будем использовать миграции)
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
